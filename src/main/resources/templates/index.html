@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Task List</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+    <script th:src="@{/js/scripts.js}"></script>
+</head>
+<body>
+
+<nav class="navbar">
+    <div>
+        <form style="display: inline;">
+            <button type="button" class="add-task-button" onclick="openModal('taskModal')">Lisää tehtävä</button>
+        </form>
+    </div>
+    <button class="nav-button" onclick="showTasks(false)">Tehtävät</button>
+    <button class="nav-button" onclick="showTasks(true)">Suoritetut tehtävät</button>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span sec:authorize="isAuthenticated()">
+            <form action="/logout" method="post" style="display: inline;">
+                <button type="submit" class="add-task-button">Kirjaudu ulos</button>
+            </form>
+        </span>
+    </div>
+</nav>
+
+<div th:if="${error}" class="error-message">
+    <p th:text="${error}"></p>
+</div>
+
+<div id="taskModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('taskModal')">&times;</span>
+        <form th:action="@{/add}" method="post">
+            <label for="title">Otsikko:</label>
+            <input type="text" id="title" name="title" required>
+            <label for="description">Kuvaus:</label>
+            <textarea id="description" name="description" rows="4" required></textarea>
+            <button class="save-task-button">Tallenna</button>
+        </form>
+    </div>
+</div>
+
+<div id="taskList" class="task-list" style="display: block;">
+    <div class="done-header-container">
+        <h2>Tehtävät</h2>
+    </div>
+    <ul>
+        <th:block th:each="task : ${tasks}">
+            <th:block th:if="${not task.completed}">
+                <li class="task-item">
+                    <div class="task-container">
+                        <div class="task-header">
+                            <button class="task-toggle-button" onclick="toggleTaskDetails(this)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                     class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                    <path d="M1.5 5.5a.5.5 0 0 1 .707-.708L8 9.793l5.646-5.646a.5.5 0 1 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6z" />
+                                </svg>
+                            </button>
+                            <span contenteditable="true"
+                                  onblur="editTaskTitle(${task.id}, this.innerText)"
+                                  th:text="${task.title}"></span>
+                            <div class="inline-form-container">
+                                <form th:action="@{/complete/{id}(id=${task.id})}" method="post" class="inline-form">
+                                    <button type="submit" class="icon-button green-check" title="Mark as complete"></button>
+                                </form>
+                                <form th:action="@{/delete/{id}(id=${task.id})}" method="post" class="inline-form">
+                                    <button type="submit" class="icon-button red-cross" title="Delete"></button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="task-details" style="display: none;">
+                            <p contenteditable="true"
+                               onblur="editTaskDescription(${task.id}, this.innerText)"
+                               th:text="${task.description}"></p>
+                        </div>
+                    </div>
+                </li>
+            </th:block>
+        </th:block>
+    </ul>
+</div>
+
+<div id="completedTaskList" class="task-list" style="display: none;">
+    <div class="done-header-container">
+        <h2>Suoritetut tehtävät</h2>
+    </div>
+    <ul>
+        <th:block th:each="task : ${tasks}">
+            <th:block th:if="${task.completed}">
+                <li class="task-item">
+                    <div class="task-container">
+                        <div class="task-header">
+                            <button class="task-toggle-button" onclick="toggleTaskDetails(this)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                     class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                    <path d="M1.5 5.5a.5.5 0 0 1 .707-.708L8 9.793l5.646-5.646a.5.5 0 1 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6z"/>
+                                </svg>
+                            </button>
+                            <span contenteditable="true"
+                                  onblur="editTaskTitle(${task.id}, this.innerText)"
+                                  th:text="${task.title}"></span>
+                            <div class="inline-form-container">
+                                <form th:action="@{/delete/{id}(id=${task.id})}" method="post" class="inline-form">
+                                    <button type="submit" class="icon-button red-cross" title="Delete"></button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="task-details">
+                            <p contenteditable="true"
+                               onblur="editTaskDescription(${task.id}, this.innerText)"
+                               th:text="${task.description}"></p>
+                        </div>
+                    </div>
+                </li>
+            </th:block>
+        </th:block>
+    </ul>
+</div>
+
+<footer>
+    <p class="footer">Kirjautunut käyttäjänä <span th:text="${username}"></span></p>
+</footer>
+</body>
+</html>
