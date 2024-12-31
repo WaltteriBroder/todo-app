@@ -13,15 +13,7 @@ Ensure that you have the following installed on your machine:
 
 ## Setup Instructions
 
-### Step 1: Clone the Repository
-Clone the project repository to your local machine:
-
-```bash
-git clone <repository-url>
-cd todolist
-```
-
-### Step 2: Configure the Database
+### Step 1: Configure the Database
 
 1. Start your PostgreSQL service.
 2. Create a PostgreSQL database:
@@ -37,7 +29,7 @@ CREATE USER list_user WITH PASSWORD 'list_user';
 GRANT ALL PRIVILEGES ON DATABASE todolist TO list_user;
 ```
 
-### Step 3: Build and Run the Application
+### Step 2: Build and Run the Application
 
 1. Use Maven to build the application:
 
