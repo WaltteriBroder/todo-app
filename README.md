@@ -1,5 +1,7 @@
 # TodoList Application
 
+ToDoList allows adding tasks to a list, editing them, marking them complete and deleting them. ToDoList has simple authentication, and each user has their personal tasks.
+
 This README contains instructions for setting up the TodoList application for local development.
 
 ## Prerequisites
