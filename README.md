@@ -2,6 +2,8 @@
 
 ToDoList allows adding tasks to a list, editing them, marking them complete and deleting them. ToDoList has simple authentication, and each user has their personal tasks.
 
+ToDoList is a Spring Boot application and uses Thymeleaf templates for rendering frontend. It uses PostgreSQL database.
+
 This README contains instructions for setting up the TodoList application for local development.
 
 ## Prerequisites
