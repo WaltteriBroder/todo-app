@@ -10,7 +10,7 @@ This README contains instructions for setting up the TodoList application for lo
 
 Ensure that you have the following installed on your machine:
 
-1. **Java Development Kit (JDK)**: Version 17 or newer.
+1. **Java Development Kit (JDK)**: Version 21 or newer.
 2. **PostgreSQL**: Ensure the PostgreSQL service is running locally.
 3. **Maven**: For managing dependencies and building the application.
 4. **Git**: To clone the repository.
